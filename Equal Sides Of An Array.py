@@ -2,14 +2,10 @@
 
 def find_even_index(arr):
     for i in range(0, len(arr)):
-        if i == 0:
-            if 0 == sum(arr[i+1:]):
-                return 0
-        else:
-            left = arr[:i]
-            right = arr[i+1:]
-            if sum(left) == sum(right):
-                return i
+        left = arr[:i]
+        right = arr[i+1:]
+        if sum(left) == sum(right):
+            return i
     return -1
 
 
