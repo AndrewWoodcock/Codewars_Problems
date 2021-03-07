@@ -8,6 +8,15 @@ seconds_dict = {"second": 1,
                 }
 
 
+words_dict = {"s": ["Second", "Seconds"],
+              "m": ["minute", "minutes"],
+              "h": ["hour", "hours"],
+              "d": ["day", "days"],
+              "y": ["year", "years"]
+              }
+
+
+
 def format_duration(seconds):
     rem = seconds
 
@@ -53,16 +62,61 @@ def format_duration(seconds):
     return out_years, out_days, out_hours, out_minutes, seconds
 
 
-def build_string():
+def build_string(durations):
 
     # TODO: build output string
-    pass
+    out_string = ""
+    # years
+    if durations[0] > 0:
+        if durations[0] == 1:
+            out_string = out_string + " " + str(durations[0]) + " " + words_dict["y"][0]
+        else:
+            out_string = out_string + " " + str(durations[0]) + " " + words_dict["y"][1]
+
+    # days
+    if durations[1] > 0:
+
+        if durations[1] == 1:
+            out_string = out_string + " " + str(durations[1]) + " " + words_dict["d"][0]
+        else:
+            out_string = out_string + " " + str(durations[1]) + " " + words_dict["d"][1]
+
+    # hours
+    if durations[2] > 0:
+
+        if durations[2] == 1:
+            out_string = out_string + " " + str(durations[2]) + " " + words_dict["h"][0]
+        else:
+            out_string = out_string + " " + str(durations[2]) + " " + words_dict["h"][1]
+
+    # minutes
+    if durations[3] > 0:
+
+        if durations[3] == 1:
+            out_string = out_string + " " + str(durations[3]) + " " + words_dict["m"][0]
+        else:
+            out_string = out_string + " " + str(durations[3]) + " " + words_dict["m"][1]
+
+    # seconds
+    if durations[4] > 0:
+        if durations[4] == 1:
+            out_string = out_string + " " + str(durations[4]) + " " + words_dict["s"][0]
+        else:
+            out_string = out_string + " " + str(durations[4]) + " " + words_dict["s"][1]
+
+
+    print(out_string)
 
 
 def main():
-    print(format_duration(62))
-    print(format_duration(3662))
-    print(format_duration(41536568))
+    durations = format_duration(41536568)
+    # durations = format_duration(3662)
+    build_string(durations)
+
+    # print(format_duration(62))
+    # print(format_duration(120))
+    # print(format_duration(3662))
+    # print(format_duration(41536568))
 
 
 if __name__ == '__main__':
