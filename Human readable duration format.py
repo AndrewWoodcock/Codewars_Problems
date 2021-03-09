@@ -8,7 +8,7 @@ seconds_dict = {"second": 1,
                 }
 
 
-words_dict = {"s": ["Second", "Seconds"],
+words_dict = {"s": ["second", "seconds"],
               "m": ["minute", "minutes"],
               "h": ["hour", "hours"],
               "d": ["day", "days"],
@@ -16,8 +16,7 @@ words_dict = {"s": ["Second", "Seconds"],
               }
 
 
-
-def format_duration(seconds):
+def primary(seconds):
     rem = seconds
 
      #Years
@@ -56,13 +55,15 @@ def format_duration(seconds):
     else:
         out_minutes = 0
 
-    seconds = int(rem)
+    seconds = round(rem)
 
-    print("{}, {}, {}, {}, {}".format(out_years, out_days, out_hours, out_minutes, seconds))
+    # print("{}, {}, {}, {}, {}".format(out_years, out_days, out_hours, out_minutes, seconds))
     return out_years, out_days, out_hours, out_minutes, seconds
 
 
 def build_string(durations):
+
+    build_cnt = (len(durations) - durations.count(0))
 
     # TODO: build output string
     out_string = ""
@@ -72,6 +73,12 @@ def build_string(durations):
             out_string = out_string + " " + str(durations[0]) + " " + words_dict["y"][0]
         else:
             out_string = out_string + " " + str(durations[0]) + " " + words_dict["y"][1]
+        build_cnt -= 1
+        if build_cnt > 1:
+            out_string = out_string + ","
+        else:
+            if sum(durations[1:]) > 0:
+                out_string = out_string + " and"
 
     # days
     if durations[1] > 0:
@@ -80,6 +87,12 @@ def build_string(durations):
             out_string = out_string + " " + str(durations[1]) + " " + words_dict["d"][0]
         else:
             out_string = out_string + " " + str(durations[1]) + " " + words_dict["d"][1]
+        build_cnt -= 1
+        if build_cnt > 1:
+            out_string = out_string + ","
+        else:
+            if sum(durations[2:]) > 0:
+                out_string = out_string + " and"
 
     # hours
     if durations[2] > 0:
@@ -88,6 +101,12 @@ def build_string(durations):
             out_string = out_string + " " + str(durations[2]) + " " + words_dict["h"][0]
         else:
             out_string = out_string + " " + str(durations[2]) + " " + words_dict["h"][1]
+        build_cnt -= 1
+        if build_cnt > 1:
+            out_string = out_string + ","
+        else:
+            if sum(durations[3:]) > 0:
+                out_string = out_string + " and"
 
     # minutes
     if durations[3] > 0:
@@ -96,6 +115,13 @@ def build_string(durations):
             out_string = out_string + " " + str(durations[3]) + " " + words_dict["m"][0]
         else:
             out_string = out_string + " " + str(durations[3]) + " " + words_dict["m"][1]
+        build_cnt -= 1
+        print(build_cnt)
+        if build_cnt > 1:
+            out_string = out_string + ","
+        else:
+            if sum(durations[4:]) > 0:
+                out_string = out_string + " and"
 
     # seconds
     if durations[4] > 0:
@@ -104,20 +130,14 @@ def build_string(durations):
         else:
             out_string = out_string + " " + str(durations[4]) + " " + words_dict["s"][1]
 
-
-    print(out_string)
-
-
-def main():
-    durations = format_duration(41536568)
-    # durations = format_duration(3662)
-    build_string(durations)
-
-    # print(format_duration(62))
-    # print(format_duration(120))
-    # print(format_duration(3662))
-    # print(format_duration(41536568))
+    return out_string.strip()
 
 
-if __name__ == '__main__':
-    main()
+def format_duration(seconds):
+    if seconds == 0:
+        return "now"
+    durations = primary(seconds)
+    return build_string(durations)
+
+
+print(format_duration(9225879))
